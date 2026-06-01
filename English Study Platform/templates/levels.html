@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="card">
+    <h1>Olá, {{ username }}!</h1>
+    <p>Selecione seu nível de inglês para começar:</p>
+
+    <form method="POST" class="level-grid">
+        <button name="level" value="iniciante">Iniciante</button>
+        <button name="level" value="basico">Básico</button>
+        <button name="level" value="intermediario">Intermediário</button>
+        <button name="level" value="avancado">Avançado</button>
+    </form>
+</section>
+{% endblock %}

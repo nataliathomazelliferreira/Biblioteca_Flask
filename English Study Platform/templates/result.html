@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="card result-card">
+    <h1>Resultado Final</h1>
+
+    <p>Parabéns, {{ username }}!</p>
+
+    <div class="score">
+        {{ score }} / {{ total }}
+    </div>
+
+    {% if score == total %}
+        <p>Excelente! Você mandou muito bem.</p>
+    {% elif score >= 1 %}
+        <p>Bom trabalho! Continue praticando para melhorar ainda mais.</p>
+    {% else %}
+        <p>Não desanime! O importante é continuar estudando.</p>
+    {% endif %}
+
+    <a class="button-link" href="{{ url_for('levels') }}">Escolher outro nível</a>
+    <a class="button-link secondary" href="{{ url_for('restart') }}">Recomeçar</a>
+</section>
+{% endblock %}

@@ -1,0 +1,154 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="progress-container">
+    <div class="progress-info">
+        <span>Progresso</span>
+        <span>{{ progress }}%</span>
+    </div>
+
+    <div class="progress-bar">
+        <div class="progress-fill" style="width: {{ progress }}%;"></div>
+    </div>
+</div>
+
+<nav class="progress-menu">
+    <a href="{{ url_for('activity', activity_type='grammar') }}">Grammar</a>
+    <a href="{{ url_for('activity', activity_type='reading') }}">Reading</a>
+    <a href="{{ url_for('activity', activity_type='listening') }}">Listening</a>
+    <a href="{{ url_for('activity', activity_type='speaking') }}">Speaking</a>
+    <a href="{{ url_for('quiz') }}">Quiz</a>
+</nav>
+
+<section class="card">
+
+    {% if activity_type == "quiz" %}
+
+        <h1>Quiz Final</h1>
+
+        <form method="POST">
+            {% for question in quiz_questions %}
+                {% set q_index = loop.index0 %}
+
+                <div class="question-box">
+                    <h3>{{ loop.index }}. {{ question.question }}</h3>
+
+                    {% for option in question.options %}
+                        <label class="option">
+                            <input type="radio" name="question_{{ q_index }}" value="{{ option }}" required>
+                            {{ option }}
+                        </label>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+
+            <button type="submit">Finalizar Quiz</button>
+        </form>
+
+    {% else %}
+
+        <h1>{{ activity.title }}</h1>
+        <p>{{ activity.instruction }}</p>
+
+        {% if activity_type == "grammar" %}
+
+            <form method="POST">
+                {% for question in activity.questions %}
+                    {% set q_index = loop.index0 %}
+
+                    <div class="question-box">
+                        <h3>{{ loop.index }}. {{ question.question }}</h3>
+                        <p class="tip">{{ question.tip }}</p>
+
+                        {% for option in question.options %}
+                            <label class="option">
+                                <input type="radio" name="question_{{ q_index }}" value="{{ option }}" required>
+                                {{ option }}
+                            </label>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+
+                <button type="submit">Responder</button>
+            </form>
+
+        {% elif activity_type == "reading" %}
+
+            <div class="text-box">
+                {{ activity.text }}
+            </div>
+
+            <form method="POST">
+                {% for question in activity.questions %}
+                    {% set q_index = loop.index0 %}
+
+                    <div class="question-box">
+                        <h3>{{ loop.index }}. {{ question.question }}</h3>
+
+                        {% for option in question.options %}
+                            <label class="option">
+                                <input type="radio" name="question_{{ q_index }}" value="{{ option }}" required>
+                                {{ option }}
+                            </label>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+
+                <button type="submit">Responder</button>
+            </form>
+
+        {% elif activity_type == "listening" %}
+
+            <div class="video-box">
+                <iframe src="{{ activity.youtube_url }}" allowfullscreen></iframe>
+            </div>
+
+            <form method="POST">
+                {% for question in activity.questions %}
+                    {% set q_index = loop.index0 %}
+
+                    <div class="question-box">
+                        <h3>{{ loop.index }}. {{ question.question }}</h3>
+
+                        {% for option in question.options %}
+                            <label class="option">
+                                <input type="radio" name="question_{{ q_index }}" value="{{ option }}" required>
+                                {{ option }}
+                            </label>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+
+                <button type="submit">Responder</button>
+            </form>
+
+        {% elif activity_type == "speaking" %}
+
+            <div class="speaking-list">
+                {% for sentence in activity.sentences %}
+                    <div class="speaking-card">
+                        🎤 {{ sentence }}
+                    </div>
+                {% endfor %}
+            </div>
+
+            {% if level_data.language == "pt" %}
+                <p class="tip">Atividade oral: leia, repita e pratique em voz alta.</p>
+            {% else %}
+                <p class="tip">Speaking activity: read, repeat, and practice aloud.</p>
+            {% endif %}
+
+        {% endif %}
+
+        {% if feedback %}
+            <div class="feedback">
+                {{ feedback }}
+            </div>
+        {% endif %}
+
+    {% endif %}
+
+</section>
+
+{% endblock %}

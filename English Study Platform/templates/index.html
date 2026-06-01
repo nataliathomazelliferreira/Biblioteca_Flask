@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="card home-card">
+    <h1>English Study Platform</h1>
+    <p>Aprenda inglês de forma prática, moderna e divertida.</p>
+
+    <form method="POST">
+        <label>Digite seu nome:</label>
+        <input type="text" name="username" placeholder="Ex: Raphael" required>
+
+        <button type="submit">Entrar na plataforma</button>
+    </form>
+</section>
+{% endblock %}
